@@ -1,9 +1,17 @@
 import org.apache.spark.rdd.RDD
 import org.apache.spark.SparkContext
 
+case class Order(O_ORDERKEY: Int, O_CUSTKEY: Int, O_ORDERSTATUS: String, 
+                      O_TOTALPRICE: Double, O_ORDERDATE: String, O_ORDERPRIORITY: String, O_CLERK: String, O_SHIPPRIORITY: String, O_COMMENT: String)
+
+case class Lineitem(L_ORDERKEY: Int, L_PARTKEY: Int, L_SUPPKEY: Int, L_LINENUMBER: Int, L_QUANTITY: Double, 
+                    L_EXTENDEDPRICE: Double, L_DISCOUNT: Double, L_TAX: Double, L_RETURNFLAG: String, 
+                    L_LINESTATUS: String, L_SHIPDATE: String, L_COMMITDATE: String, L_RECEIPTDATE: String, 
+                    L_SHIPINSTRUCT: String, L_SHIPMODE: String, L_COMMENT:String)
+
 object Utility  {
-	def getOrders(sc: SparkContext, path: String) = {
-		    val orders = sc.textFile(path).flatMap(s => {
+	def getOrdersRDD(sc: SparkContext, path: String) = {
+		    val orders = sc.textFile(path).map(s => {
 			      val fields = s.split("\\|")
 			      val O_ORDERKEY = fields(0).toInt
 			      val O_CUSTKEY = fields(1).toInt
@@ -14,13 +22,13 @@ object Utility  {
 			      val O_CLERK = fields(6)
 			      val O_SHIPPRIORITY = fields(7)
 			      val O_COMMENT = fields(8)
-			      List((O_ORDERKEY, O_CUSTKEY, O_ORDERSTATUS, O_TOTALPRICE, O_ORDERDATE, O_ORDERPRIORITY, O_CLERK, O_SHIPPRIORITY, O_COMMENT))
+			      Order(O_ORDERKEY, O_CUSTKEY, O_ORDERSTATUS, O_TOTALPRICE, O_ORDERDATE, O_ORDERPRIORITY, O_CLERK, O_SHIPPRIORITY, O_COMMENT)
 			    })
 		orders
 	}
 
-	def getLineItems(sc: SparkContext, path: String) = {
-		val lineitem = sc.textFile(path).flatMap(s => {
+	def getLineItemsRDD(sc: SparkContext, path: String) = {
+		val lineitem = sc.textFile(path).map(s => {
 	        val fields = s.split("\\|")
 	        val L_ORDERKEY = fields(0).toInt
 	        val L_PARTKEY = fields(1).toInt
@@ -38,8 +46,7 @@ object Utility  {
 	        val L_SHIPINSTRUCT = fields(13)
 	        val L_SHIPMODE = fields(14)
 			val L_COMMENT = fields(15)
-
-	        List((L_ORDERKEY, L_PARTKEY ,L_SUPPKEY, L_LINENUMBER, L_QUANTITY, L_EXTENDEDPRICE, L_DISCOUNT, L_TAX, L_RETURNFLAG, L_LINESTATUS, L_SHIPDATE, L_COMMITDATE, L_RECEIPTDATE, L_SHIPINSTRUCT, L_SHIPMODE, L_COMMENT))
+	        Lineitem(L_ORDERKEY, L_PARTKEY ,L_SUPPKEY, L_LINENUMBER, L_QUANTITY, L_EXTENDEDPRICE, L_DISCOUNT, L_TAX, L_RETURNFLAG, L_LINESTATUS, L_SHIPDATE, L_COMMITDATE, L_RECEIPTDATE, L_SHIPINSTRUCT, L_SHIPMODE, L_COMMENT)
 	     })
 
 		lineitem

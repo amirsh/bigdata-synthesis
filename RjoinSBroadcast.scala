@@ -2,7 +2,7 @@ import org.apache.spark.{SparkConf, SparkContext}
 
 
 // Broadcast LineItems
-class RjoinSBroadcast {
+object RjoinSBroadcast {
 	def main(args: Array[String]) {
 		val sc = new SparkContext(new SparkConf().setAppName("R broadcast join S Example"))
 		val orders = Utility.getOrdersRDD(sc, "hdfs:///user/guliyev/sf1/orders.tbl")
@@ -16,6 +16,8 @@ class RjoinSBroadcast {
 	  			if l.contains(o.O_ORDERKEY)
 	    	} yield(o, l)
 	    }, preservesPartitioning = true)
-	    joined.collect()
+	    val count = joined.count
+
+	    println("Result : "  +count)
 	}
 }

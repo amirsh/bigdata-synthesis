@@ -1,10 +1,9 @@
 import org.apache.spark.{SparkConf, SparkContext}
 
-
 // Partion Orders and Lineitesm on orderKey
 // do local join
 // collect data
-class RlocalJoinS {
+object RlocalJoinS {
   def main(args: Array[String]) {
 
     val sc = new SparkContext(new SparkConf().setAppName("Local Join Example"))
@@ -26,7 +25,11 @@ class RlocalJoinS {
         for ((orderkey, l) <- lineitems if orders.contains(orderkey)) yield (orders(orderkey), l)
       localJoin.iterator
     })
-    val joinResult = zipOLI.collect
+    
+    val count = zipOLI.count()
+
+    println("Result : "  +count)
+
   }
 }
 

@@ -1,4 +1,4 @@
-scalaVersion := "2.11.2"
+scalaVersion := "2.10.3"
 
 libraryDependencies += "org.apache.spark" % "spark-core_2.11" % "1.3.0"
 

@@ -1,0 +1,37 @@
+Data Size:	1G
+Tables:		Lineitems join Orderkey
+Command: 	./spark-submit --class "" --master yarn-cluster  "".jar --num-executors 25
+
+
+Data Frame
+	Start:	15/05/11 16:00:27
+	End: 	15/05/11 16:01:13
+
+	46 seconds
+
+Broadcast Orders join LineItems
+	Start:	15/05/11 16:02:21
+	End:	15/05/11 16:03:00
+
+	39 seconds
+
+RDD Key Join
+	Start:	15/05/11 16:04:02
+	End:	15/05/11 16:04:11
+
+	9 seconds
+
+Local Join
+	Start:	15/05/11 16:05:21
+	End:	15/05/11 16:06:00
+
+	39 seconds
+
+Broadcast LineIntems join Orders
+	Start:	0
+	End:	Infinity :)
+
+RDDRJoinS (wost possible join)
+	Start:	0
+	End:	Infinity :)
+

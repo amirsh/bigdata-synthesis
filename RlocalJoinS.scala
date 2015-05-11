@@ -28,8 +28,7 @@ object RlocalJoinS {
     
     val count = zipOLI.count()
 
-    println("Result : "  +count)
-
+    println("Result : " + count)
   }
 }
 

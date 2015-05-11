@@ -18,6 +18,6 @@ object DataFrameExample {
 
       val count = orders.join(lineitem, orders("O_ORDERKEY") === lineitem("L_ORDERKEY")).count()
 
-      println("Result : "  +count)
+      println("Result : " + count)
     }
 }

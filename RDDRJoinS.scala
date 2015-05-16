@@ -11,8 +11,8 @@ object RDDRJoinS {
 
 	  // val result = orders.collect.map(or => lineitem.flatMap(li => if (or._1 == li._1) List(or, li) else Nil).count)
 	  // println("Result : " + result.sum)
-	  val orderRam = orders.collect
-	  val result = lineitem.flatMap(li => orderRam.flatMap(or => if (or._1 == li._1) List(or, li) else Nil)).count
+	   val orderRam = orders.collect
+	   val result = lineitem.flatMap(li => orderRam.flatMap(or => if (or._1 == li._1) List(or, li) else Nil)).count
       println("Result : " + result)
     }
 }

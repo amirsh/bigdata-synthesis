@@ -8,14 +8,14 @@ object RlocalJoinS {
 
     val sc = new SparkContext(new SparkConf().setAppName("Local Join Example"))
 
-    val orders = Utility.getOrdersRDD(sc, "hdfs:///user/guliyev/sf1/orders.tbl").map(o => (o.O_ORDERKEY, o))
-    val lineitem = Utility.getLineItemsRDD(sc,"hdfs:///user/guliyev/sf1/lineitem.tbl").map(l => (l.L_ORDERKEY, l))
+    val orders = Utility.getOrdersRDD(sc, Utility.getRootPath+"order.tbl").map(o => (o.O_ORDERKEY, o))
+    val lineitem = Utility.getLineItemsRDD(sc,Utility.getRootPath+"lineitem.tbl").map(l => (l.L_ORDERKEY, l))
 
     val partOrders = orders.partitionBy(new org.apache.spark.HashPartitioner(200))
     val partLineitems = lineitem.partitionBy(new org.apache.spark.HashPartitioner(200))
 
-    partOrders.persist()
-    partLineitems.persist()
+    //partOrders.persist()
+    //partLineitems.persist()
 
 
     val zipOLI = partOrders.zipPartitions(partLineitems)((orders0, lineitems0) => {

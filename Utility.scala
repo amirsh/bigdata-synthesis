@@ -29,6 +29,10 @@ case class Lineitem(L_ORDERKEY: Int,
                     //L_COMMENT:String)
 
 object Utility  {
+	def getRootPath = {
+		"hdfs:///user/guliyev/small/"
+	}
+
 	def getOrdersRDD(sc: SparkContext, path: String) = {
 		    val orders = sc.textFile(path).map(s => {
 			      val fields = s.split("\\|")

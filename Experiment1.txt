@@ -34,4 +34,3 @@ Broadcast LineIntems join Orders
 RDDRJoinS (wost possible join)
 	Start:	0
 	End:	Infinity :)
-

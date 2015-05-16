@@ -1,0 +1,40 @@
+Data size: 0.1G
+Tables:		Lineitems join Orderkey
+Command: 	./spark-submit --class "" --master yarn-cluster  "".jar --num-executors 25
+
+******************************************************************************
+DataFrame (DataFrameExample):
+	Start:	15/05/16 13:17:30
+	End:	15/05/16 13:17:50
+
+	20 seconds
+
+******************************************************************************
+Broadcast Orders and join Lineimtem (RBroadcastJoinS): 
+	Start:	15/05/16 13:07:21
+	End:	15/05/16 13:14:40 
+
+	7 minutes, 19 seconds
+
+
+******************************************************************************
+k=1 (RDDRJoinS), for each order we join with lineitems, worst possible case
+	Start:	15/05/16 13:22:36
+	End:	15/05/16 13:32:35
+
+	9 minutes 59 seconds minutes
+
+
+******************************************************************************
+Orders join Broadcast Lineitems (RjoinSBroadcast)
+	Start:	15/05/16 13:38:18
+	End:	15/05/16 13:47:55
+
+	9 minutes 37 seconds
+
+******************************************************************************
+Hash Join, RDD built in join operation (RDDRKeyJoin):
+	Start:	15/05/16 13:19:19
+	End:	15/05/16 13:19:28
+
+	9 seconds

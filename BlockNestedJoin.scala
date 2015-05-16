@@ -17,7 +17,8 @@ object BlockNestedJoin {
 
 		val ordersBlock = ordersAsList.grouped(len).toList
 		for (block <- ordersBlock) {
-			val joined = lineitem.flatMap(li => block.flatMap(or => if (or.O_ORDERKEY == li.L_ORDERKEY) List(or, li) else Nil)).count
+			val ordersBroadcast = sc.broadcast(block)
+			val joined = lineitem.flatMap(li => ordersBroadcast.value.flatMap(or => if (or.O_ORDERKEY == li.L_ORDERKEY) List(or, li) else Nil)).count
 			count = count + joined;
 		}
 

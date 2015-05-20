@@ -2,6 +2,16 @@ Data size: 0.1G
 Tables:		Lineitems join Orderkey
 Command: 	./spark-submit --class "" --master yarn-cluster  "".jar --num-executors 25
 
+
+******************************************************************************
+Theta Join
+	Start:	
+	End:	
+
+
+	Without optimized local join it took to much to finish, which is related to replication
+	P.S - in optimized local join the result is 34 Seconds
+
 ******************************************************************************
 DataFrame (DataFrameExample):
 	Start:	15/05/16 13:17:30

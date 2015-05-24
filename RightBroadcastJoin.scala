@@ -2,9 +2,9 @@ import org.apache.spark.{SparkConf, SparkContext}
 
 
 // Broadcast LineItems
-object RjoinSBroadcast {
+object RightBroadcastJoin {
 	def main(args: Array[String]) {
-		val sc = new SparkContext(new SparkConf().setAppName("R broadcast join S Example"))
+		val sc = new SparkContext(new SparkConf().setAppName("RightBroadcastJoin"))
 		val orders = Utility.getOrdersRDD(sc, Utility.getRootPath+"order.tbl")
       	val lineitem = Utility.getLineItemsRDD(sc,Utility.getRootPath+"lineitem.tbl")
 

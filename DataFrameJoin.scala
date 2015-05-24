@@ -1,9 +1,9 @@
 import org.apache.spark.{SparkConf, SparkContext}
 
-object DataFrameExample {
+object DataFrameJoin {
 
     def main(args: Array[String]) {
-      val sc = new SparkContext(new SparkConf().setAppName("Data Frame RjoinS Example"))
+      val sc = new SparkContext(new SparkConf().setAppName("Data Frame Join"))
 
       val sqlContext = new org.apache.spark.sql.SQLContext(sc)
       import sqlContext.implicits._

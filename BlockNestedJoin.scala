@@ -5,7 +5,7 @@ import org.apache.spark.{SparkConf, SparkContext}
 object BlockNestedJoin {
 	def main(args: Array[String]) {
 		
-		val sc = new SparkContext(new SparkConf().setAppName("BlockNestedJoin Example"))
+		val sc = new SparkContext(new SparkConf().setAppName("BlockNestedJoin"))
 		val orders = Utility.getOrdersRDD(sc, Utility.getRootPath+"order.tbl")
 	    val lineitem = Utility.getLineItemsRDD(sc,Utility.getRootPath+"lineitem.tbl")
 		

@@ -4,10 +4,10 @@ import scala.collection.JavaConversions._
 
 case class CustomKey(ORDERKEY: Int, regionId: Int)
 
-object ThetaJoinExample {
+object ThetaJoin {
   def main(args: Array[String]) {
 
-    val sc = new SparkContext(new SparkConf().setAppName("Theta Join Example"))
+    val sc = new SparkContext(new SparkConf().setAppName("ThetaJoin"))
     val orders = Utility.getOrdersRDD(sc, Utility.getRootPath+"order.tbl")
     val lineitem = Utility.getLineItemsRDD(sc,Utility.getRootPath+"lineitem.tbl")
 

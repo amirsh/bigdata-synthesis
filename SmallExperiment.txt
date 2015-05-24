@@ -4,6 +4,13 @@ Command: 	./spark-submit --class "" --master yarn-cluster  "".jar --num-executor
 
 
 ******************************************************************************
+Scala two list join using FlatMap
+	Start:	15/05/24 12:22:46
+	End:	
+
+	More than 10 minutes And it is not related to Loading data, because it tooks ~4 seconds to load data.
+
+******************************************************************************
 Theta Join
 	Start:	
 	End:	
@@ -70,7 +77,7 @@ Orders join Broadcast Lineitems (RjoinSBroadcast)
 
 ******************************************************************************
 Hash Join, RDD built in join operation (RDDRKeyJoin):
-	Start:	15/05/16 13:19:19
-	End:	15/05/16 13:19:28
+	Start:	//15/05/16 13:19:19
+	End:	//15/05/16 13:19:28
 
-	9 seconds
+	17 seconds

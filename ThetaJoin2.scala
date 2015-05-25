@@ -29,12 +29,12 @@ object ThetaJoin2 {
 
 
     val assignment = new ContentInsensitiveMatrixAssignment(orders.count(), lineitem.count(), 200, 13)
-    val firstRelationRegions = assignment.getRegionIDs(ContentInsensitiveMatrixAssignment.Dimension.ROW)
-    val secondRelationRegions = assignment.getRegionIDs(ContentInsensitiveMatrixAssignment.Dimension.COLUMN)
+    //val firstRelationRegions = assignment.getRegionIDs(ContentInsensitiveMatrixAssignment.Dimension.ROW)
+    //val secondRelationRegions = assignment.getRegionIDs(ContentInsensitiveMatrixAssignment.Dimension.COLUMN)
 
 
-    val partOrders = orders.flatMap(r => for (i <-firstRelationRegions) yield (i, r)).partitionBy(new KeyPartitioner(200))
-    val partLineitems = lineitem.flatMap(r => for (i <- secondRelationRegions) yield (i, r)).partitionBy(new KeyPartitioner(200))
+    val partOrders = orders.flatMap(r => for (i <- assignment.getRegionIDs(ContentInsensitiveMatrixAssignment.Dimension.ROW)) yield (i, r)).partitionBy(new KeyPartitioner(200))
+    val partLineitems = lineitem.flatMap(r => for (i <- assignment.getRegionIDs(ContentInsensitiveMatrixAssignment.Dimension.COLUMN)) yield (i, r)).partitionBy(new KeyPartitioner(200))
 
 
     val zipOLI = partOrders.zipPartitions(partLineitems)((orders0, lineitems0) => {

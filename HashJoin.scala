@@ -16,12 +16,12 @@ object HashJoin {
 
 
     val zipOLI = partOrders.zipPartitions(partLineitems)((orders0, lineitems0) => {
-      val orders = orders0.toList
-      val lineitems = lineitems0.toList
+      val orders = orders0
+      val lineitems = lineitems0
       // val localJoin =
         // for ((orderkey, l) <- lineitems if orders.contains(orderkey)) yield (orders(orderkey), l)
       val localJoin = orders.flatMap(or => lineitems.flatMap(li => if (or._1 == li._1) List(or, li) else Nil))
-      localJoin.iterator
+      localJoin
     })
     
     val count = zipOLI.count

@@ -1,0 +1,75 @@
+Data size: 0.1G
+Tables:		Lineitems < Orderkey
+Command: 	./spark-submit --class "" --master yarn-cluster  "".jar --num-executors 25
+
+******************************************************************************
+DataFrame (DataFrame):
+	Start:	
+	End:	
+
+			More than 20 minute and it can be 5 * 20 at least
+
+******************************************************************************
+LeftBroadcastJoin
+	Start:	09:22:12
+	End:	
+
+
+******************************************************************************
+BlockNestedJoin k = 1
+	Start:	09:47:18
+	End:	09:57:01
+  
+  	~10 minutes
+
+
+******************************************************************************
+Scala two list join using FlatMap
+	Start:	
+	End:	
+
+
+******************************************************************************
+Theta Join
+	Start:	
+	End:	
+
+
+******************************************************************************
+k = 1
+Broadcast Orders and join Lineimtem (LeftBroadcastJoin): 
+	Start:	
+	End:	
+
+
+******************************************************************************
+k = 2
+Broadcast Orders and join Lineimtem (LeftBroadcastJoin): 
+	Start:	
+	End:	
+
+
+******************************************************************************
+k = 4
+Broadcast Orders and join Lineimtem (LeftBroadcastJoin): 
+	Start:	
+	End:	
+
+
+******************************************************************************
+k = 8
+Broadcast Orders and join Lineimtem (LeftBroadcastJoin): 
+	Start:	
+	End:	
+
+******************************************************************************
+k = n 
+(RDDRJoinS), for each order we join with lineitems, worst possible case
+	Start:	
+	End:	
+
+
+******************************************************************************
+Orders join Broadcast Lineitems (RjoinSBroadcast)
+	Start:	
+	End:	

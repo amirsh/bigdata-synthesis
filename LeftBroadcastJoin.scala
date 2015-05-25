@@ -33,10 +33,9 @@ object LeftBroadcastJoin {
 	 //  //   	} yield(o, l)
 		// }, preservesPartitioning = true)
 		// val count = joined.sum
-		val joined = lineitem.flatMap(li => ordersBroadcast.value.flatMap(or => if (or.O_ORDERKEY == li.L_ORDERKEY) List(or, li) else Nil)).count
-		val count = joined
-
+		//val joined = lineitem.flatMap(li => ordersBroadcast.value.flatMap(or => if (or.O_ORDERKEY == li.L_ORDERKEY) List(or, li) else Nil)).count
+		val joined = lineitem.map(li => ordersBroadcast.value.map(or => if (or.O_ORDERKEY > li.L_ORDERKEY) 1 else 0).sum).sum
 		
-		println("Result : " + count)
+		println("Result : " + joined)
 	}
 }

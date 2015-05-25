@@ -16,8 +16,8 @@ object DataFrameJoin {
                     "L_LINESTATUS", "L_SHIPDATE", "L_COMMITDATE", "L_RECEIPTDATE", 
                     "L_SHIPINSTRUCT", "L_SHIPMODE", "L_COMMENT"*/)
 
-      val count = orders.join(lineitem, orders("O_ORDERKEY") === lineitem("L_ORDERKEY")).count()
-
+      //val count = orders.join(lineitem, orders("O_ORDERKEY") === lineitem("L_ORDERKEY")).count()
+      val count = orders.join(lineitem, orders("O_ORDERKEY") > lineitem("L_ORDERKEY")).count()
       println("Result : " + count)
     }
 }

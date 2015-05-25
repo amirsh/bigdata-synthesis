@@ -12,13 +12,14 @@ object BlockNestedJoin {
 		var k = args(0).toInt
 		val ordersAsList = orders.collect
 		val len = ordersAsList.size / k
-		var count: Long = 0;
+		var count: Double = 0;
 
 
 		val ordersBlock = ordersAsList.grouped(len).toList
 		for (block <- ordersBlock) {
 			val ordersBroadcast = sc.broadcast(block)
-			val joined = lineitem.flatMap(li => ordersBroadcast.value.flatMap(or => if (or.O_ORDERKEY == li.L_ORDERKEY) List(or, li) else Nil)).count
+			//val joined = lineitem.flatMap(li => ordersBroadcast.value.flatMap(or => if (or.O_ORDERKEY == li.L_ORDERKEY) List(or, li) else Nil)).count
+			val joined = lineitem.map(li => ordersBroadcast.value.map(or => if (or.O_ORDERKEY > li.L_ORDERKEY) 1 else 0).sum).sum
 			count = count + joined;
 		}
 

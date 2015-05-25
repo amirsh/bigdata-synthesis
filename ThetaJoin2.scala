@@ -2,6 +2,17 @@ import org.apache.spark.SparkConf
 import org.apache.spark.SparkContext
 import scala.collection.JavaConversions._
 
+class KeyPartitioner(partitions: Int) extends org.apache.spark.Partitioner {
+
+  def numPartitions: Int = partitions
+
+  def getPartition(key: Any): Int = {
+    val k = key.asInstanceOf[(Int, Any)]
+    k._1
+  }
+}
+
+
 /*
  * Is this implementation correct?
  */
@@ -19,8 +30,8 @@ object ThetaJoin2 {
     val secondRelationRegions = assignment.getRegionIDs(ContentInsensitiveMatrixAssignment.Dimension.COLUMN)
 
 
-    val partOrders = orders.flatMap(r => for (i <-firstRelationRegions) yield (i, r)).partitionBy(new org.apache.spark.HashPartitioner(200))
-    val partLineitems = lineitem.flatMap(r => for (i <- secondRelationRegions) yield (i, r)).partitionBy(new org.apache.spark.HashPartitioner(200))
+    val partOrders = orders.flatMap(r => for (i <-firstRelationRegions) yield (i, r)).partitionBy(new KeyPartitioner(200))
+    val partLineitems = lineitem.flatMap(r => for (i <- secondRelationRegions) yield (i, r)).partitionBy(new KeyPartitioner(200))
 
 
     val zipOLI = partOrders.zipPartitions(partLineitems)((orders0, lineitems0) => {

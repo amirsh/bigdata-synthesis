@@ -7,8 +7,10 @@ class KeyPartitioner(partitions: Int) extends org.apache.spark.Partitioner {
   def numPartitions: Int = partitions
 
   def getPartition(key: Any): Int = {
-    val k = key.asInstanceOf[(Int, Any)]
-    k._1
+    
+    val res = key.asInstanceOf[(Int, Any)]._1
+    println(s"$key => $res")
+    res
   }
 }
 
@@ -35,13 +37,13 @@ object ThetaJoin2 {
 
 
     val zipOLI = partOrders.zipPartitions(partLineitems)((orders0, lineitems0) => {
-      val orders = orders0
-      val lineitems = lineitems0
+      val orders = orders0.toList
+      val lineitems = lineitems0.toList
       
       val localJoin = orders.flatMap(or => lineitems.flatMap(li => if (or._2.O_ORDERKEY == li._2.L_ORDERKEY) List(or._2, li._2) else Nil))
 
       //val localJoin = for ((ok, sum) <- lineitems if orders.contains(ok)) yield (orders(ok), sum)
-      localJoin
+      localJoin.iterator
     })
 
     val partResult2 = zipOLI.count

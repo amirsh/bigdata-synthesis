@@ -8,9 +8,10 @@ class KeyPartitioner(partitions: Int) extends org.apache.spark.Partitioner {
 
   def getPartition(key: Any): Int = {
     
-    val res = key.asInstanceOf[(Int, Any)]._1
-    println(s"$key => $res")
-    res
+    // val res = key.asInstanceOf[(Int, Any)]._1
+    // println(s"$key => $res")
+    // res
+    key.asInstanceOf[Int]
   }
 }
 

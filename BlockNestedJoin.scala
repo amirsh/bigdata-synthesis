@@ -5,10 +5,11 @@ import org.apache.spark.{SparkConf, SparkContext}
 object BlockNestedJoin {
 	def main(args: Array[String]) {
 		
-		val sc = new SparkContext(new SparkConf().setAppName("BlockNestedJoin"))
+		val sc = new SparkContext(new SparkConf().setAppName("BlockNestedJoin K"))
 		val orders = Utility.getOrdersRDD(sc, Utility.getRootPath+"order.tbl")
-	    val lineitem = Utility.getLineItemsRDD(sc,Utility.getRootPath+"lineitem.tbl")
-		
+	    //val lineitem = Utility.getLineItemsRDD(sc,Utility.getRootPath+"lineitem.tbl")
+		val orders2 = Utility.getOrdersRDD(sc, Utility.getRootPath+"order.tbl")
+	    
 		var k = args(0).toInt
 		val ordersAsList = orders.collect
 		val len = ordersAsList.size / k
@@ -19,7 +20,7 @@ object BlockNestedJoin {
 		for (block <- ordersBlock) {
 			val ordersBroadcast = sc.broadcast(block)
 			//val joined = lineitem.flatMap(li => ordersBroadcast.value.flatMap(or => if (or.O_ORDERKEY == li.L_ORDERKEY) List(or, li) else Nil)).count
-			val joined = lineitem.map(li => ordersBroadcast.value.map(or => if (or.O_ORDERKEY > li.L_ORDERKEY) 1 else 0).sum).sum
+			val joined = orders2.map(li => ordersBroadcast.value.map(or => if (or.O_ORDERKEY > li.O_ORDERKEY) List(or, li) else Nil)).count
 			count = count + joined;
 		}
 

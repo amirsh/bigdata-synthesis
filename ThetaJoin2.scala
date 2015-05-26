@@ -24,24 +24,25 @@ object ThetaJoin2 {
 
     val sc = new SparkContext(new SparkConf().setAppName("ThetaJoin"))
     val orders = Utility.getOrdersRDD(sc, Utility.getRootPath+"order.tbl")
-    val lineitem = Utility.getLineItemsRDD(sc,Utility.getRootPath+"lineitem.tbl")
+    //val lineitem = Utility.getLineItemsRDD(sc,Utility.getRootPath+"lineitem.tbl")
+    val orders2 = Utility.getOrdersRDD(sc, Utility.getRootPath+"order.tbl")
 
 
 
-    val assignment = new ContentInsensitiveMatrixAssignment(orders.count(), lineitem.count(), 200, 13)
+    val assignment = new ContentInsensitiveMatrixAssignment(orders.count(), orders2.count(), 256, 13)
     //val firstRelationRegions = assignment.getRegionIDs(ContentInsensitiveMatrixAssignment.Dimension.ROW)
     //val secondRelationRegions = assignment.getRegionIDs(ContentInsensitiveMatrixAssignment.Dimension.COLUMN)
 
 
-    val partOrders = orders.flatMap(r => for (i <- assignment.getRegionIDs(ContentInsensitiveMatrixAssignment.Dimension.ROW)) yield (i, r)).partitionBy(new KeyPartitioner(200))
-    val partLineitems = lineitem.flatMap(r => for (i <- assignment.getRegionIDs(ContentInsensitiveMatrixAssignment.Dimension.COLUMN)) yield (i, r)).partitionBy(new KeyPartitioner(200))
+    val partOrders = orders.flatMap(r => for (i <- assignment.getRegionIDs(ContentInsensitiveMatrixAssignment.Dimension.ROW)) yield (i, r)).partitionBy(new KeyPartitioner(256))
+    val partLineitems = orders2.flatMap(r => for (i <- assignment.getRegionIDs(ContentInsensitiveMatrixAssignment.Dimension.COLUMN)) yield (i, r)).partitionBy(new KeyPartitioner(256))
 
 
     val zipOLI = partOrders.zipPartitions(partLineitems)((orders0, lineitems0) => {
       val orders = orders0.toList
       val lineitems = lineitems0.toList
       
-      val localJoin = orders.flatMap(or => lineitems.flatMap(li => if (or._2.O_ORDERKEY == li._2.L_ORDERKEY) List(or._2, li._2) else Nil))
+      val localJoin = orders.flatMap(or => lineitems.flatMap(li => if (or._2.O_ORDERKEY == li._2.O_ORDERKEY) List(or._2, li._2) else Nil))
 
       //val localJoin = for ((ok, sum) <- lineitems if orders.contains(ok)) yield (orders(ok), sum)
       localJoin.iterator

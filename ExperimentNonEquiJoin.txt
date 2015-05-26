@@ -1,75 +1,62 @@
-Data size: 0.1G
-Tables:		Lineitems < Orderkey
+Data size: 0.01G // tiny dataset
+Tables:		Orderkey < Orderkey
 Command: 	./spark-submit --class "" --master yarn-cluster  "".jar --num-executors 25
 
 ******************************************************************************
 DataFrame (DataFrame):
-	Start:	
-	End:	
+	Start:	19:51:55
+	End:	19:56:36
 
-			More than 20 minute and it can be 5 * 20 at least
-
-******************************************************************************
-LeftBroadcastJoin
-	Start:	09:22:12
-	End:	
-
+	~ 5 minutes
 
 ******************************************************************************
 BlockNestedJoin k = 1
-	Start:	09:47:18
-	End:	09:57:01
-  
-  	~10 minutes
+	Start:	20:00:38
+	End:	20:00:52
+ 
+ 	~ 14 seconds
+
+******************************************************************************
+BlockNestedJoin k = 2
+	Start:	20:06:08
+	End:	20:06:31
+
+   ~ 23 seconds
+
+******************************************************************************
+BlockNestedJoin k = 8
+	Start:	20:07:12
+	End:	20:07:34
+
+  ~ 22 seconds
 
 
 ******************************************************************************
-Scala two list join using FlatMap
-	Start:	
-	End:	
+LeftBroadcastJoin
+	Start:	20:08:22
+	End:	20:08:41
+
+	~ 19 seconds	
 
 
 ******************************************************************************
-Theta Join
-	Start:	
+NaiveJoin
+	Start:	20:09:25
 	End:	
 
+			it took very much,
 
 ******************************************************************************
-k = 1
-Broadcast Orders and join Lineimtem (LeftBroadcastJoin): 
-	Start:	
-	End:	
+ThetaJoin2
+	Start:	20:19:37
+	End:	20:19:55
 
-
-******************************************************************************
-k = 2
-Broadcast Orders and join Lineimtem (LeftBroadcastJoin): 
-	Start:	
-	End:	
-
+	~ 18 seconds
 
 ******************************************************************************
-k = 4
-Broadcast Orders and join Lineimtem (LeftBroadcastJoin): 
-	Start:	
-	End:	
+ScalaListJoin
+	Start:	20:20:36
+	End:	20:20:46
 
 
-******************************************************************************
-k = 8
-Broadcast Orders and join Lineimtem (LeftBroadcastJoin): 
-	Start:	
-	End:	
-
-******************************************************************************
-k = n 
-(RDDRJoinS), for each order we join with lineitems, worst possible case
-	Start:	
-	End:	
-
-
-******************************************************************************
-Orders join Broadcast Lineitems (RjoinSBroadcast)
-	Start:	
-	End:	
+	~ 10 seconds

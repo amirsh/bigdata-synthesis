@@ -7,7 +7,8 @@ object LeftBroadcastJoin {
 		
 		val sc = new SparkContext(new SparkConf().setAppName("LeftBroadcastJoin"))
 		val orders = Utility.getOrdersRDD(sc, Utility.getRootPath+"order.tbl")
-	    val lineitem = Utility.getLineItemsRDD(sc,Utility.getRootPath+"lineitem.tbl")
+	    //val lineitem = Utility.getLineItemsRDD(sc,Utility.getRootPath+"lineitem.tbl")
+		val orders2 = Utility.getOrdersRDD(sc, Utility.getRootPath+"order.tbl")
 
 	     // val ordersBroadcast = sc.broadcast(orders.map(o => (o.O_ORDERKEY, o)).collectAsMap)
 		 // val joined = lineitem.mapPartitions({ iter =>
@@ -34,7 +35,7 @@ object LeftBroadcastJoin {
 		// }, preservesPartitioning = true)
 		// val count = joined.sum
 		//val joined = lineitem.flatMap(li => ordersBroadcast.value.flatMap(or => if (or.O_ORDERKEY == li.L_ORDERKEY) List(or, li) else Nil)).count
-		val joined = lineitem.map(li => ordersBroadcast.value.map(or => if (or.O_ORDERKEY > li.L_ORDERKEY) 1 else 0).sum).sum
+		val joined = orders2.map(li => ordersBroadcast.value.map(or => if (or.O_ORDERKEY > li.O_ORDERKEY) List(or, li) else Nil)).count
 		
 		println("Result : " + joined)
 	}

@@ -42,7 +42,7 @@ object ThetaJoin2 {
       val orders = orders0.toList
       val lineitems = lineitems0.toList
       
-      val localJoin = orders.flatMap(or => lineitems.flatMap(li => if (or._2.O_ORDERKEY == li._2.O_ORDERKEY) List(or._2, li._2) else Nil))
+      val localJoin = orders.flatMap(or => lineitems.flatMap(li => if (or._2.O_ORDERKEY > li._2.O_ORDERKEY) List(or._2, li._2) else Nil))
 
       //val localJoin = for ((ok, sum) <- lineitems if orders.contains(ok)) yield (orders(ok), sum)
       localJoin.iterator

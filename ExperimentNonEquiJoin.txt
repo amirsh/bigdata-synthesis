@@ -41,22 +41,22 @@ LeftBroadcastJoin
 
 ******************************************************************************
 NaiveJoin
-	Start:	20:09:25
+	Start:	10:03:59
 	End:	
 
 			it took very much,
 
 ******************************************************************************
 ThetaJoin2
-	Start:	20:19:37
-	End:	20:19:55
+	Start:	09:51:34
+	End:	09:52:02
 
-	~ 18 seconds
+	~ 28 seconds - the result is twice bigger, so there is bug and we are doing twice the work. Probably, the correct running time should be ~14 seconds
 
 ******************************************************************************
 ScalaListJoin
-	Start:	20:20:36
-	End:	20:20:46
+	Start:	10:03:56
+	End:	
 
 
-	~ 10 seconds
+	more than 15 minutes

@@ -17,9 +17,9 @@ class KeyPartitioner(partitions: Int) extends org.apache.spark.Partitioner {
 object ThetaInequiJoin extends OrderOrderJoinBenchmark {
   val sc = new SparkContext(new SparkConf().setAppName("ThetaInequiJoin"))
   def queryProcess(orders: RDD[First], orders2: RDD[Second]): Unit = {
-    val assignment = new ContentInsensitiveMatrixAssignment(orders.count(), orders2.count(), 32, 13)
-    val partOrders = orders.flatMap(r => for (i <- assignment.getRegionIDs(ContentInsensitiveMatrixAssignment.Dimension.ROW)) yield (i, r)).partitionBy(new KeyPartitioner(32))
-    val partLineitems = orders2.flatMap(r => for (i <- assignment.getRegionIDs(ContentInsensitiveMatrixAssignment.Dimension.COLUMN)) yield (i, r)).partitionBy(new KeyPartitioner(32))
+    val assignment = new ContentInsensitiveMatrixAssignment(orders.count(), orders2.count(), 256, 13)
+    val partOrders = orders.flatMap(r => for (i <- assignment.getRegionIDs(ContentInsensitiveMatrixAssignment.Dimension.ROW)) yield (i, r)).partitionBy(new KeyPartitioner(256))
+    val partLineitems = orders2.flatMap(r => for (i <- assignment.getRegionIDs(ContentInsensitiveMatrixAssignment.Dimension.COLUMN)) yield (i, r)).partitionBy(new KeyPartitioner(256))
 
     val zipOLI = partOrders.zipPartitions(partLineitems)((orders0, lineitems0) => {
       val orders = orders0.toList
@@ -37,9 +37,9 @@ object ThetaInequiJoin extends OrderOrderJoinBenchmark {
 object ThetaEquiJoin extends LineitemOrderJoinBenchmark {
   val sc = new SparkContext(new SparkConf().setAppName("ThetaEquiJoin"))
   def queryProcess(lineitem: RDD[First], orders: RDD[Second]): Unit = {
-    val assignment = new ContentInsensitiveMatrixAssignment(orders.count(), lineitem.count(), 32, 13)
-    val partOrders = orders.flatMap(r => for (i <- assignment.getRegionIDs(ContentInsensitiveMatrixAssignment.Dimension.ROW)) yield (i, r)).partitionBy(new KeyPartitioner(32))
-    val partLineitems = lineitem.flatMap(r => for (i <- assignment.getRegionIDs(ContentInsensitiveMatrixAssignment.Dimension.COLUMN)) yield (i, r)).partitionBy(new KeyPartitioner(32))
+    val assignment = new ContentInsensitiveMatrixAssignment(orders.count(), lineitem.count(), 256, 13)
+    val partOrders = orders.flatMap(r => for (i <- assignment.getRegionIDs(ContentInsensitiveMatrixAssignment.Dimension.ROW)) yield (i, r)).partitionBy(new KeyPartitioner(256))
+    val partLineitems = lineitem.flatMap(r => for (i <- assignment.getRegionIDs(ContentInsensitiveMatrixAssignment.Dimension.COLUMN)) yield (i, r)).partitionBy(new KeyPartitioner(256))
 
     val zipOLI = partOrders.zipPartitions(partLineitems)((orders0, lineitems0) => {
       val orders = orders0.toList

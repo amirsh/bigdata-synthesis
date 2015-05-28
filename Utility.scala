@@ -30,7 +30,7 @@ case class Lineitem(L_ORDERKEY: Int,
 
 object Utility  {
 	def getRootPath = {
-		"hdfs:///user/guliyev/tiny/"
+		"hdfs:///user/guliyev/small/"
 	}
 
 	def getOrdersRDD(sc: SparkContext, path: String) = {

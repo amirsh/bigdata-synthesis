@@ -8,10 +8,10 @@ object DataFrameInequiJoin extends OrderOrderJoinBenchmark{
       val sqlContext = new org.apache.spark.sql.SQLContext(sc)
       import sqlContext.implicits._
       val orders = ordersRDD.toDF("O_ORDERKEY", "O_CUSTKEY")
-      orders.persist
+      //orders.persist
       
       val orders2 = orders2RDD.toDF("O_ORDERKEY", "O_CUSTKEY")
-      orders2.persist
+      //orders2.persist
       
       orders.registerTempTable("orders")
       orders2.registerTempTable("orders2")
@@ -28,10 +28,10 @@ object DataFrameEquiJoin extends LineitemOrderJoinBenchmark{
       val sqlContext = new org.apache.spark.sql.SQLContext(sc)
       import sqlContext.implicits._
       val orders = ordersRDD.toDF("O_ORDERKEY", "O_CUSTKEY")
-      orders.persist
+      //orders.persist
       
       val lineitems = lineitemRDD.toDF("L_ORDERKEY", "L_LINENUMBER")
-      lineitems.persist
+      //lineitems.persist
       
       orders.registerTempTable("orders")
       lineitems.registerTempTable("lineitems")

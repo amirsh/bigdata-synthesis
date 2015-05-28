@@ -1,0 +1,38 @@
+Size:
+	Orders : 	15000
+
+Size of Intermedita result:
+	112,492,500
+	15000.0
+
+*************************************************************************
+BNLJ 
+	k = 1; Start = 16:04:43; End = 16:05:00; Running time = 17 seconds;
+
+	k = 2; Start = 16:07:26; End = 16:07:46; Running time = 20 seconds;
+
+	k = 4; Start = 16:12:49; End = 16:13:11; Running time = 22 seconds;
+
+	k = n; Start = 16:14:37; End = ~; Running time = More than 2 minutes; 
+
+*************************************************************************
+ScalaLocal
+	Start = 16:19:30; End ~; Running time = More than 2 minutes;
+
+*************************************************************************
+LeftBroadcast Join
+	Start = 16:29:04; End = 16:29:22; Running time = 18 seconds;
+
+*************************************************************************
+ThetaJoin
+	Start = 16:34:18; End = 16:35:04; Running time = 46 seconds;
+
+*************************************************************************
+DataFrame
+	Start = 16:40:53; End = 16:41:34; Running time = 41 seconds;
+
+*************************************************************************
+NaiveJoin
+	Start = ; End = ~; Running time = More than 2 minutes;
+
+

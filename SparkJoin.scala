@@ -1,13 +1,15 @@
 import org.apache.spark.{SparkConf, SparkContext}
+import org.apache.spark.rdd.RDD
 
-object SparkJoin {
-	def main(args: Array[String]) {
-      val sc = new SparkContext(new SparkConf().setAppName("SparkJoin"))
+object SparkJoin extends LineitemOrderJoinBenchmark {
+	val sc = new SparkContext(new SparkConf().setAppName("SparkJoin"))
 
-      val orders = Utility.getOrdersRDD(sc, Utility.getRootPath+"order.tbl").map(o => (o.O_ORDERKEY, o))
-      val lineitem = Utility.getLineItemsRDD(sc,Utility.getRootPath+"lineitem.tbl").map(l => (l.L_ORDERKEY, l))
+	def queryProcess(lineitemRDD: RDD[First], ordersRDD: RDD[Second]): Unit = {
 
-      val count = orders.join(lineitem).count
-      println("Result : "  +count)
-  }
+      	val orders = ordersRDD.map(o => (o.O_ORDERKEY, o))
+      	val lineitem = lineitemRDD.map(l => (l.L_ORDERKEY, l))
+		
+		val count = orders.join(lineitem).count
+      	println("Result : "  +count)	
+	}
 }

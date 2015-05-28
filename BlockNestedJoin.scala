@@ -18,7 +18,6 @@ object BlockNestedInequiJoin extends OrderOrderJoinBenchmark {
 		val ordersBlock = ordersAsList.grouped(len).toList
 		for (block <- ordersBlock) {
 			val ordersBroadcast = sc.broadcast(block)
-			//val joined = lineitem.flatMap(li => ordersBroadcast.value.flatMap(or => if (or.O_ORDERKEY == li.L_ORDERKEY) List(or, li) else Nil)).count
 			val joined = orders2.map(li => ordersBroadcast.value.map(or => if (or.O_ORDERKEY > li.O_ORDERKEY) List((or, li)) else Nil)).count
 			count = count + joined;
 		}

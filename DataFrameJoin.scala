@@ -1,35 +1,42 @@
 import org.apache.spark.{SparkConf, SparkContext}
+import org.apache.spark.rdd.RDD
 
-object DataFrameJoin {
 
-    def main(args: Array[String]) {
-      val sc = new SparkContext(new SparkConf().setAppName("Data Frame Join"))
-
+object DataFrameInequiJoin extends OrderOrderJoinBenchmark{
+    val sc = new SparkContext(new SparkConf().setAppName("DataFrameInequiJoin"))
+    def queryProcess(ordersRDD: RDD[First], orders2RDD: RDD[Second]): Unit = {
       val sqlContext = new org.apache.spark.sql.SQLContext(sc)
       import sqlContext.implicits._
-
-      val orders = Utility.getOrdersRDD(sc, Utility.getRootPath + "order.tbl").toDF("O_ORDERKEY", "O_CUSTKEY"
-        /*, "O_ORDERSTATUS", "O_TOTALPRICE", "O_ORDERDATE", "O_ORDERPRIORITY", "O_CLERK", "O_SHIPPRIORITY", "O_COMMENT"*/)
+      val orders = ordersRDD.toDF("O_ORDERKEY", "O_CUSTKEY")
       orders.persist
-      //orders.count
-      //println("Orders size : " + orders.count)
-
-      //val lineitem = Utility.getLineItemsRDD(sc,Utility.getRootPath+"lineitem.tbl").toDF("L_ORDERKEY", /*"L_PARTKEY", "L_SUPPKEY",*/ "L_LINENUMBER"/*, "L_QUANTITY", 
-      //              "L_EXTENDEDPRICE", "L_DISCOUNT", "L_TAX", "L_RETURNFLAG", 
-      //              "L_LINESTATUS", "L_SHIPDATE", "L_COMMITDATE", "L_RECEIPTDATE", 
-      //              "L_SHIPINSTRUCT", "L_SHIPMODE", "L_COMMENT"*/)
-
-      val orders2 = Utility.getOrdersRDD(sc, Utility.getRootPath + "order.tbl").toDF("O_ORDERKEY", "O_CUSTKEY")
+      
+      val orders2 = orders2RDD.toDF("O_ORDERKEY", "O_CUSTKEY")
       orders2.persist
-      //orders2.count
-
-      //val count = orders.join(lineitem, orders("O_ORDERKEY") === lineitem("L_ORDERKEY")).count()
-      //val count = orders.join(orders2, orders("O_ORDERKEY") > orders2("O_ORDERKEY")).count()
       
       orders.registerTempTable("orders")
       orders2.registerTempTable("orders2")
       
       val count = sqlContext.sql("SELECT count(*) FROM orders o1, orders2 o2 where o1.O_ORDERKEY > o2.O_ORDERKEY")
+      println("Result : " + count.collect())
+    }
+}
+
+
+object DataFrameEquiJoin extends LineitemOrderJoinBenchmark{
+    val sc = new SparkContext(new SparkConf().setAppName("DataFrameEquiJoin"))
+    def queryProcess(lineitemRDD: RDD[First], ordersRDD: RDD[Second]): Unit = {
+      val sqlContext = new org.apache.spark.sql.SQLContext(sc)
+      import sqlContext.implicits._
+      val orders = ordersRDD.toDF("O_ORDERKEY", "O_CUSTKEY")
+      orders.persist
+      
+      val lineitems = lineitemRDD.toDF("L_ORDERKEY", "L_LINENUMBER")
+      lineitems.persist
+      
+      orders.registerTempTable("orders")
+      lineitems.registerTempTable("lineitems")
+      
+      val count = sqlContext.sql("SELECT count(*) FROM orders o, lineitems l where o.O_ORDERKEY = l.L_ORDERKEY")
       println("Result : " + count.collect())
     }
 }

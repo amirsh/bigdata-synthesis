@@ -12,5 +12,14 @@ object ScalaListJoin {
     val join = orders.flatMap(or => orders2.flatMap(li => if (or.O_ORDERKEY > li.O_ORDERKEY) List(or, li) else Nil))
   
     println("Result : " + join.size)
+    // val list = scala.collection.mutable.ArrayBuffer[Order]()
+    // orders.foreach(or =>
+    // 	orders2.foreach(or2 =>
+    // 		// if((or.O_ORDERKEY - or2.O_ORDERKEY) < 5 && (or.O_ORDERKEY - or2.O_ORDERKEY) > -5)
+    // 			// count += 1
+    // 			list += or
+    // 		))
+    // println(list.toList)
+    // println(list.size)
   }
 }

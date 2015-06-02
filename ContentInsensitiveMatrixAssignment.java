@@ -1,4 +1,6 @@
-/*
+/* 
+ * Adopted from Squall project: https://github.com/epfldata/squall
+ *
  * Copyright (c) 2011-2015 EPFL DATA Laboratory
  * Copyright (c) 2014-2015 The Squall Collaboration (see NOTICE)
  *
